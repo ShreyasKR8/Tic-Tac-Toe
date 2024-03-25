@@ -3,3 +3,14 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 30px);
+}
+
+.cell {
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+}

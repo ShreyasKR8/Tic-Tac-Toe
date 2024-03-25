@@ -1,24 +1,35 @@
 const GameBoard = (function() {
-    const gameBoard = [
-        ['-', '-', '-'],
-        ['-', '-', '-'],
-        ['-', '-', '-']
-    ]; //private variable
-
+    // const gameBoard = [ 'X', 'X', 'X', 'X', 'O', 'O', 'X', 'X', 'X' ]; //private variable
+    const gameBoard = [ '-', '-', '-', '-', '-', '-', '-', '-', '-' ]; //private variable
+    let i = 1;
+    let output = '';
     const getBoard = () => {
         gameBoard.forEach(element => {
-            console.log(element.join(" "));
+            output += element; // concatenate the element to the output string
+            if (i % 3 === 0) { // if it's the third element, add a new line
+                output += '\n';
+            } else {
+                output += ' '; // add a space between elements
+            }
+            i++; // increment i
         });
+        console.log(output);
+        output = '';
     };
-    const setBoard = (row, col, token) => {
-        gameBoard[row][col] = token;
+    const markToken = (index, token) => {
+        gameBoard[index] = token;
     };
-    return {getBoard, setBoard};
+
+    const clearBoard = () => {
+        for(let i = 0; i < 9; i++)
+        {
+            gameBoard[i] = '-';
+        }
+    }
+    return {getBoard, markToken, clearBoard};
 }) ();
 
 const Player = function () {
-    let name = '';
-    let token = '';
     let currentPlayerIndex = 0;
     const players = [];
 
@@ -41,18 +52,19 @@ Player.createPlayer('MG', 'O');
 
 const GameController = (function() {
     let input = 10;
-    let token = '';
     while(input--)
     {
         const player = Player.switchPlayer();
+        let boardIndex = window.prompt("Enter the index");
+        if(boardIndex == -1)
+        {
+            GameBoard.clearBoard();
+        }
+        GameBoard.markToken(boardIndex, player.token);
         GameBoard.getBoard(); //display the board;
-        let gameInput = window.prompt("Enter the row and column");
-        let gameInputArray = gameInput.split(' ');
-        GameBoard.setBoard(gameInputArray[0], gameInputArray[1], player.token);
     }
 }) ();
 
-//
 // player1 = Player.createPlayer('SKR', 'X');
 // player2 = Player.createPlayer('MG', 'O');
 // console.log(player.token);
