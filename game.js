@@ -51,22 +51,20 @@ Player.createPlayer('SKR', 'X');
 Player.createPlayer('MG', 'O');
 
 const GameController = (function() {
-    let input = 10;
-    while(input--)
-    {
+    const play = (boardIndex) => {
         const player = Player.switchPlayer();
-        let boardIndex = window.prompt("Enter the index");
-        if(boardIndex == -1)
-        {
-            GameBoard.clearBoard();
-        }
         GameBoard.markToken(boardIndex, player.token);
         GameBoard.getBoard(); //display the board;
     }
+    
+    return {play};
 }) ();
 
-// player1 = Player.createPlayer('SKR', 'X');
-// player2 = Player.createPlayer('MG', 'O');
-// console.log(player.token);
-// player = Player.switchPlayer();
-// console.log(player.token);
+
+const cells = document.querySelectorAll(".cell");
+cells.forEach(cell => {
+    cell.addEventListener("click", () => {
+        let cellNumber = cell.getAttribute("data-index")
+        GameController.play(cellNumber);
+    })
+})
