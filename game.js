@@ -66,11 +66,20 @@ const GameController = (function() {
 }) ();
 
 const cells = document.querySelectorAll(".cell");
+const restartBtn = document.querySelector(".restart-btn");
+
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
         const currentPlayerToken = Player.getCurrentPlayer().token;
         cell.textContent = currentPlayerToken;
-        let cellNumber = cell.getAttribute("data-index")
+        let cellNumber = cell.getAttribute("data-index");
         GameController.play(cellNumber);
-    })
+    });
 })
+
+restartBtn.addEventListener("click", () => {
+    GameBoard.clearBoard();
+    cells.forEach(cell => {
+        cell.textContent = "";
+    });
+});
