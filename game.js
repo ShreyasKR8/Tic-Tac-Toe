@@ -41,10 +41,14 @@ const Player = function () {
 
     const switchPlayer = function () {
         currentPlayerIndex = (currentPlayerIndex == 0) ? 1 : 0; //change player
-        return players[currentPlayerIndex];
+        // return players[currentPlayerIndex];
     };
 
-    return {createPlayer, switchPlayer};
+    const getCurrentPlayer = function() {
+        return players[currentPlayerIndex];
+    }
+
+    return {createPlayer, switchPlayer, getCurrentPlayer};
 } ();
 
 Player.createPlayer('SKR', 'X');
@@ -52,18 +56,20 @@ Player.createPlayer('MG', 'O');
 
 const GameController = (function() {
     const play = (boardIndex) => {
-        const player = Player.switchPlayer();
-        GameBoard.markToken(boardIndex, player.token);
+        const currentPlayer = Player.getCurrentPlayer();
+        GameBoard.markToken(boardIndex, currentPlayer.token);
         GameBoard.getBoard(); //display the board;
+        Player.switchPlayer();
     }
     
     return {play};
 }) ();
 
-
 const cells = document.querySelectorAll(".cell");
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
+        const currentPlayerToken = Player.getCurrentPlayer().token;
+        cell.textContent = currentPlayerToken;
         let cellNumber = cell.getAttribute("data-index")
         GameController.play(cellNumber);
     })
