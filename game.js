@@ -1,8 +1,7 @@
 const GameBoard = (function() {
     // const gameBoard = [ 'X', 'X', 'X', 'X', 'O', 'O', 'X', 'X', 'X' ]; //private variable
-    const gameBoard = [ '', '', '', '', '', '', '', '', '' ]; //private variable
+    const gameBoard = [ "", "", "", "", "", "", "", "", "" ]; //private variable
     let i = 1;
-    let output = '';
     const getBoardState = () => {
 		let currentBoardState = [...gameBoard]; //shallow copy(one level) to avoid manipulation of private variable from outside.
 		return currentBoardState;
@@ -11,12 +10,16 @@ const GameBoard = (function() {
         gameBoard[index] = token;
     };
 
+    const isCellEmpty = (index) => {
+        return gameBoard[index] === "";
+    }
+
     const clearBoard = () => {
-        for(let i = 0; i < 9; i++) {
-            gameBoard[i] = '';
+        for(let i = 0; i < gameBoard.length; i++) {
+            gameBoard[i] = "";
         }
     }
-    return {getBoardState, markToken, clearBoard};
+    return {getBoardState, markToken, isCellEmpty, clearBoard};
 }) ();
 
 const Player = function () {
@@ -37,11 +40,13 @@ const Player = function () {
         return players[currentPlayerIndex];
     }
 
-    return {createPlayer, switchPlayer, getCurrentPlayer};
+    const resetCurrentPlayer = function () {
+        currentPlayerIndex = 0;
+    }
+
+    return {createPlayer, switchPlayer, getCurrentPlayer, resetCurrentPlayer};
 } ();
 
-Player.createPlayer('SKR', 'X');
-Player.createPlayer('MG', 'O');
 
 const GameController = (function() {
     const winCombos = [
@@ -59,35 +64,52 @@ const GameController = (function() {
         }
         return false;
 	};
-
+    
     const play = (boardIndex) => {
         const currentPlayer = Player.getCurrentPlayer();
         GameBoard.markToken(boardIndex, currentPlayer.token);
 		if(checkForWin(currentPlayer)) {
             console.log(currentPlayer.name, "won");
-            return;
+            let winner = currentPlayer.name;
+            return winner;
         }
         Player.switchPlayer();
+        return "";
     };
     
     return {play};
 }) ();
 
-const cells = document.querySelectorAll(".cell");
-const restartBtn = document.querySelector(".restart-btn");
-
-cells.forEach(cell => {
-    cell.addEventListener("click", () => {
-        const currentPlayerToken = Player.getCurrentPlayer().token;
-        cell.textContent = currentPlayerToken;
-        let cellNumber = cell.getAttribute("data-index");
-        let outcome = GameController.play(cellNumber);
+const DisplayController = (function() {
+    document.addEventListener("DOMContentLoaded", function() {
+        const cells = document.querySelectorAll(".cell");
+        const resultDiv = document.querySelector(".result");
+        const restartBtn = document.querySelector(".restart-btn");
+        
+        cells.forEach(cell => {
+            cell.addEventListener("click", () => {
+                if(cell.textContent == "") { //Disallow marking on non-empty cells.
+                    const currentPlayerToken = Player.getCurrentPlayer().token;
+                    cell.textContent = currentPlayerToken;
+                    let cellNumber = cell.getAttribute("data-index");
+                    let winner = GameController.play(cellNumber);
+                    if(winner !== "") {
+                        resultDiv.textContent = winner + " " + "won!";
+                    }
+                }
+            });
+        });
+        
+        restartBtn.addEventListener("click", () => {
+            GameBoard.clearBoard();
+            Player.resetCurrentPlayer();
+            cells.forEach(cell => {
+                cell.textContent = ""
+                resultDiv.textContent = "";
+            });
+        });
     });
-})
+}) ();
 
-restartBtn.addEventListener("click", () => {
-    GameBoard.clearBoard();
-    cells.forEach(cell => {
-        cell.textContent = "";
-    });
-});
+Player.createPlayer('SKR', 'X');
+Player.createPlayer('MG', 'O');
