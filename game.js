@@ -47,12 +47,13 @@ const GameController = (function() {
     const winCombos = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], //rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8], //columns
-        [0, 4, 8], [2, 4, 7]             //diagonals 
+        [0, 4, 8], [2, 4, 6]             //diagonals 
     ];
 	const checkForWin = (currentPlayer) => {
-		let currentBoardState = GameBoard.getBoardState();
+        let currentBoardState = GameBoard.getBoardState();
 		for(let combo of winCombos) {
             if(combo.every((index) => currentBoardState[index] == currentPlayer.token)) {
+                console.log("WinCombo = " + combo);
                 return true;
             }
         }
