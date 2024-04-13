@@ -17,3 +17,20 @@
     height: 30px;
     text-align: center;
 }
+
+.result {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.restart-div {
+    width: fit-content;
+    margin: 50px auto;
+}
+
+.restart-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    background-color:cornflowerblue;
+}
