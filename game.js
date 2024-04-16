@@ -54,6 +54,7 @@ const GameController = (function() {
         [0, 3, 6], [1, 4, 7], [2, 5, 8], //columns
         [0, 4, 8], [2, 4, 6]             //diagonals 
     ];
+
 	const checkForWin = (currentPlayer) => {
         let currentBoardState = GameBoard.getBoardState();
 		for(let combo of winCombos) {
@@ -85,22 +86,25 @@ const DisplayController = (function() {
         const cells = document.querySelectorAll(".cell");
         const resultDiv = document.querySelector(".result");
         const restartBtn = document.querySelector(".restart-btn");
+        let canMarkToken = true;
         
         cells.forEach(cell => {
             cell.addEventListener("click", () => {
-                if(cell.textContent == "") { //Disallow marking on non-empty cells.
+                if(cell.textContent == "" && canMarkToken) { //Disallow marking on non-empty cells.
                     const currentPlayerToken = Player.getCurrentPlayer().token;
                     cell.textContent = currentPlayerToken;
                     let cellNumber = cell.getAttribute("data-index");
                     let winner = GameController.play(cellNumber);
                     if(winner !== "") {
                         resultDiv.textContent = winner + " " + "won!";
+                        canMarkToken = false;    
                     }
                 }
             });
         });
         
         restartBtn.addEventListener("click", () => {
+            canMarkToken = true;
             GameBoard.clearBoard();
             Player.resetCurrentPlayer();
             cells.forEach(cell => {
