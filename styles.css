@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+header {
+    height: 100px;
+    background-color:cornflowerblue ;
+}
+
 .game-board {
     display: grid;
     grid-template-columns: repeat(3, 30px);
