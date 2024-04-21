@@ -49,6 +49,8 @@ const Player = function () {
 
 
 const GameController = (function() {
+    Player.createPlayer('SKR', 'X');
+    Player.createPlayer('MG', 'O');
     const winCombos = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], //rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8], //columns
@@ -114,6 +116,3 @@ const DisplayController = (function() {
         });
     });
 }) ();
-
-Player.createPlayer('SKR', 'X');
-Player.createPlayer('MG', 'O');
