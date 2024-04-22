@@ -89,23 +89,23 @@ const DisplayController = (function() {
         const resultDiv = document.querySelector(".result");
         const restartBtn = document.querySelector(".restart-btn");
         let canMarkToken = true;
-        
-        cells.forEach(cell => {
-            cell.addEventListener("click", () => {
-                if(cell.textContent == "" && canMarkToken) { //Disallow marking on non-empty cells.
-                    const currentPlayerToken = Player.getCurrentPlayer().token;
-                    cell.textContent = currentPlayerToken;
-                    let cellNumber = cell.getAttribute("data-index");
-                    let winner = GameController.play(cellNumber);
-                    if(winner !== "") {
-                        resultDiv.textContent = winner + " " + "won!";
-                        canMarkToken = false;    
-                    }
-                }
-            });
-        });
-        
-        restartBtn.addEventListener("click", () => {
+
+        const markTokenInCell = function(cell) {
+            if(cell.textContent != "" || !canMarkToken) { //Disallow marking on non-empty cells.
+                return;
+            }
+
+            const currentPlayerToken = Player.getCurrentPlayer().token;
+            cell.textContent = currentPlayerToken;
+            let cellNumber = cell.getAttribute("data-index");
+            let winner = GameController.play(cellNumber);
+            if(winner !== "") {
+                resultDiv.textContent = winner + " " + "won!";
+                canMarkToken = false;    
+            }
+        }
+
+        const onClickedRestart = function() {
             canMarkToken = true;
             GameBoard.clearBoard();
             Player.resetCurrentPlayer();
@@ -113,6 +113,14 @@ const DisplayController = (function() {
                 cell.textContent = ""
                 resultDiv.textContent = "";
             });
+        }
+    
+        cells.forEach(cell => {
+            cell.addEventListener("click", () => {
+                markTokenInCell(cell);
+            });
         });
+        
+        restartBtn.addEventListener("click", onClickedRestart);
     });
 }) ();
