@@ -87,7 +87,7 @@ const GameController = (function() {
             let winner = currentPlayer.name;
             return winner;
         }
-        if(GameBoard.getNumOfCellsMarked == 9) {
+        if(GameBoard.getNumOfCellsMarked() == 9) {
             return "Tie";
         }
         Player.switchPlayer();
