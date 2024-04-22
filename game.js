@@ -1,7 +1,8 @@
 const GameBoard = (function() {
     // const gameBoard = [ 'X', 'X', 'X', 'X', 'O', 'O', 'X', 'X', 'X' ]; //private variable
     const gameBoard = [ "", "", "", "", "", "", "", "", "" ]; //private variable
-    let i = 1;
+    let numOfCellsMarked = 0; //private variable
+    
     const getBoardState = () => {
 		let currentBoardState = [...gameBoard]; //shallow copy(one level) to avoid manipulation of private variable from outside.
 		return currentBoardState;
@@ -19,7 +20,16 @@ const GameBoard = (function() {
             gameBoard[i] = "";
         }
     }
-    return {getBoardState, markToken, isCellEmpty, clearBoard};
+
+    const getNumOfCellsMarked = () => numOfCellsMarked;
+
+    const incrementNumOfCellsMarked = () => numOfCellsMarked++;
+
+    const resetNumOfCellsMarked = () => {
+        numOfCellsMarked = 0;
+    }
+
+    return {getBoardState, markToken, isCellEmpty, clearBoard, getNumOfCellsMarked, incrementNumOfCellsMarked, resetNumOfCellsMarked};
 }) ();
 
 const Player = function () {
@@ -51,6 +61,7 @@ const Player = function () {
 const GameController = (function() {
     Player.createPlayer('SKR', 'X');
     Player.createPlayer('MG', 'O');
+
     const winCombos = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], //rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8], //columns
@@ -76,8 +87,11 @@ const GameController = (function() {
             let winner = currentPlayer.name;
             return winner;
         }
+        if(GameBoard.getNumOfCellsMarked == 9) {
+            return "Tie";
+        }
         Player.switchPlayer();
-        return "";
+        return "None";
     };
     
     return {play};
@@ -94,12 +108,17 @@ const DisplayController = (function() {
             if(cell.textContent != "" || !canMarkToken) { //Disallow marking on non-empty cells.
                 return;
             }
-
+            GameBoard.incrementNumOfCellsMarked();
             const currentPlayerToken = Player.getCurrentPlayer().token;
             cell.textContent = currentPlayerToken;
             let cellNumber = cell.getAttribute("data-index");
-            let winner = GameController.play(cellNumber);
-            if(winner !== "") {
+            let result = GameController.play(cellNumber);
+            if(result == "Tie") {
+                resultDiv.textContent = "It's a tie!";
+                canMarkToken = false;
+            }
+            else if(result !== "None") {
+                let winner = result;
                 resultDiv.textContent = winner + " " + "won!";
                 canMarkToken = false;    
             }
@@ -108,6 +127,7 @@ const DisplayController = (function() {
         const onClickedRestart = function() {
             canMarkToken = true;
             GameBoard.clearBoard();
+            GameBoard.resetNumOfCellsMarked();
             Player.resetCurrentPlayer();
             cells.forEach(cell => {
                 cell.textContent = ""
