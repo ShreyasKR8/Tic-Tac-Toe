@@ -24,6 +24,46 @@ header div {
     font-size: 22px;
 }
 
+.main-content {
+    display: flex;
+}
+
+.names-dialog {
+    width: 400px;
+}
+
+.names-dialog form{
+    margin: 20px 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 5px 0 20px;
+    padding: 3px;
+    width: 200px;
+    height: 30px;
+    outline: none;
+    border-radius: 3px;
+}
+
+input:focus {
+    border-color: yellowgreen;
+}
+
+.names-dialog button {
+    border: none;
+    background-color:#eebbc3;
+    width: 100px;
+    height: 30px;
+    border-radius: 3px;
+}
+
+.main-content .player-name {
+    font-size: 32px;
+    margin: auto; /* center content*/
+}
+
 .game-board {
     display: grid;
     grid-template-columns: repeat(3, auto);
@@ -71,15 +111,20 @@ header div {
 
 .result {
     width: fit-content;
-    margin: 0 auto;
+    margin: 40px auto;
+    height: 30px;
 }
 
-.restart-div {
+.btn-div {
+    display: flex;
+    flex-direction: column;
     width: fit-content;
     margin: 50px auto;
 }
 
+.change-name-btn,
 .restart-btn {
+    margin-bottom: 20px;
     border: none;
     border-radius: 6px;
     padding: 10px 20px;

@@ -102,6 +102,8 @@ const DisplayController = (function() {
         const cells = document.querySelectorAll(".cell");
         const resultDiv = document.querySelector(".result");
         const restartBtn = document.querySelector(".restart-btn");
+        const changeNameBtn = document.querySelector(".change-name-btn");
+        const dialog = document.querySelector(".names-dialog");
         let canMarkToken = true;
 
         const markTokenInCell = function(cell) {
@@ -142,5 +144,9 @@ const DisplayController = (function() {
         });
         
         restartBtn.addEventListener("click", onClickedRestart);
+
+        changeNameBtn.addEventListener("click", () => {
+            dialog.showModal();
+        })
     });
 }) ();
