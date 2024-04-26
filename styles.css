@@ -130,3 +130,12 @@ input:focus {
     padding: 10px 20px;
     background-color:#eebbc3;
 }
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
