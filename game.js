@@ -55,8 +55,12 @@ const Player = function () {
     }
 
     const changePlayerNames = function(player1Name, player2Name) {
-        players[0].name = player1Name;
-        players[1].name = player2Name;
+        if(player1Name != "" ) {
+            players[0].name = player1Name;
+        }
+        if(player2Name != "" ) {
+            players[1].name = player2Name;
+        }
     }
 
     return {createPlayer, switchPlayer, getCurrentPlayer, resetCurrentPlayer, changePlayerNames};
@@ -144,10 +148,14 @@ const DisplayController = (function() {
         }
 
         const displayPlayerNames = function(player1Name, player2Name) {
-            const playerName1Div = document.querySelector(".player-name-1-div");
-            const playerName2Div = document.querySelector(".player-name-2-div");
-            playerName1Div.textContent = player1Name;
-            playerName2Div.textContent = player2Name;
+            if(player1Name != "" ) {
+                const playerName1Div = document.querySelector(".player-name-1-div");
+                playerName1Div.textContent = player1Name;
+            }
+            if(player2Name != "" ) {
+                const playerName2Div = document.querySelector(".player-name-2-div");
+                playerName2Div.textContent = player2Name;
+            }
         }
     
         cells.forEach(cell => {
