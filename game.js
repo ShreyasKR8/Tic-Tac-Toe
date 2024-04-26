@@ -54,7 +54,12 @@ const Player = function () {
         currentPlayerIndex = 0;
     }
 
-    return {createPlayer, switchPlayer, getCurrentPlayer, resetCurrentPlayer};
+    const changePlayerNames = function(player1Name, player2Name) {
+        players[0].name = player1Name;
+        players[1].name = player2Name;
+    }
+
+    return {createPlayer, switchPlayer, getCurrentPlayer, resetCurrentPlayer, changePlayerNames};
 } ();
 
 
@@ -104,6 +109,7 @@ const DisplayController = (function() {
         const restartBtn = document.querySelector(".restart-btn");
         const changeNameBtn = document.querySelector(".change-name-btn");
         const dialog = document.querySelector(".names-dialog");
+        const confirmNamesBtn = document.querySelector(".confirm-names-button") 
         let canMarkToken = true;
 
         const markTokenInCell = function(cell) {
@@ -136,6 +142,13 @@ const DisplayController = (function() {
                 resultDiv.textContent = "";
             });
         }
+
+        const displayPlayerNames = function(player1Name, player2Name) {
+            const playerName1Div = document.querySelector(".player-name-1-div");
+            const playerName2Div = document.querySelector(".player-name-2-div");
+            playerName1Div.textContent = player1Name;
+            playerName2Div.textContent = player2Name;
+        }
     
         cells.forEach(cell => {
             cell.addEventListener("click", () => {
@@ -147,6 +160,16 @@ const DisplayController = (function() {
 
         changeNameBtn.addEventListener("click", () => {
             dialog.showModal();
-        })
+        });
+
+        confirmNamesBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const player1Name = document.getElementById("player-1-name").value;
+            const player2Name = document.getElementById("player-2-name").value;
+            Player.changePlayerNames(player1Name, player2Name);
+            displayPlayerNames(player1Name, player2Name);
+            dialog.close();
+        });
     });
 }) ();
