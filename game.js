@@ -68,8 +68,8 @@ const Player = function () {
 
 
 const GameController = (function() {
-    Player.createPlayer('SKR', 'X');
-    Player.createPlayer('MG', 'O');
+    Player.createPlayer('Player1', 'X');
+    Player.createPlayer('Player2', 'O');
 
     const winCombos = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], //rows
@@ -136,7 +136,7 @@ const DisplayController = (function() {
             }
         }
 
-        const onClickedRestart = function() {
+        const RestartGame = function() {
             canMarkToken = true;
             GameBoard.clearBoard();
             GameBoard.resetNumOfCellsMarked();
@@ -164,7 +164,7 @@ const DisplayController = (function() {
             });
         });
         
-        restartBtn.addEventListener("click", onClickedRestart);
+        restartBtn.addEventListener("click", RestartGame);
 
         changeNameBtn.addEventListener("click", () => {
             dialog.showModal();
@@ -177,6 +177,7 @@ const DisplayController = (function() {
             const player2Name = document.getElementById("player-2-name").value;
             Player.changePlayerNames(player1Name, player2Name);
             displayPlayerNames(player1Name, player2Name);
+            
             dialog.close();
         });
     });
