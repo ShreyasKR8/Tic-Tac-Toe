@@ -13,6 +13,14 @@ body {
     color: #b8c1ec;
 }
 
+button {
+    box-shadow: 2px 2px 1px grey;
+}
+
+button:hover {
+    background-color: #ec919d;
+}
+
 header {
     height: 100px;
     color: #fffffe;
@@ -30,12 +38,20 @@ header div {
 
 .names-dialog {
     width: 400px;
+    padding: 30px;
+    border-radius: 5px;
+    margin: auto auto;
+    background-color: #b8c1ec;
 }
 
 .names-dialog form{
-    margin: 20px 50px;
+    margin: 20px 60px;
     display: flex;
     flex-direction: column;
+}
+
+.dialog-heading {
+    margin-bottom: 30px;
 }
 
 input {
@@ -44,14 +60,14 @@ input {
     width: 200px;
     height: 30px;
     outline: none;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 input:focus {
     border-color: yellowgreen;
 }
 
-.names-dialog button {
+.confirm-names-button {
     border: none;
     background-color:#eebbc3;
     width: 100px;
@@ -117,8 +133,9 @@ input:focus {
 
 .btn-div {
     display: flex;
-    flex-direction: column;
-    width: fit-content;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 350px;
     margin: 50px auto;
 }
 
