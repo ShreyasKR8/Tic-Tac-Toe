@@ -115,13 +115,13 @@ const DisplayController = (function() {
         const dialog = document.querySelector(".names-dialog");
         const confirmNamesBtn = document.querySelector(".confirm-names-button")
         const currentYearSpan = document.querySelector(".current-year");
-        let canMarkToken = true;
+        let canMarkToken = true; //To disallow marking on non-empty cells after game ends.
 
         const date = new Date();
         currentYearSpan.textContent = date.getFullYear();
 
         const markTokenInCell = function(cell) {
-            if(cell.textContent != "" || !canMarkToken) { //Disallow marking on non-empty cells.
+            if(cell.classList.contains("clicked") || !canMarkToken) { //Disallow marking on non-empty cells.
                 return;
             }
             GameBoard.incrementNumOfCellsMarked();
@@ -148,16 +148,17 @@ const DisplayController = (function() {
             cells.forEach(cell => {
                 cell.textContent = ""
                 resultDiv.textContent = "";
+                cell.classList.remove("clicked");
             });
         }
 
         const displayPlayerNames = function(player1Name, player2Name) {
             if(player1Name != "" ) {
-                const playerName1Div = document.querySelector(".player-name-1-div");
+                const playerName1Div = document.querySelector(".player-name-1");
                 playerName1Div.textContent = player1Name;
             }
             if(player2Name != "" ) {
-                const playerName2Div = document.querySelector(".player-name-2-div");
+                const playerName2Div = document.querySelector(".player-name-2");
                 playerName2Div.textContent = player2Name;
             }
         }
@@ -165,9 +166,27 @@ const DisplayController = (function() {
         cells.forEach(cell => {
             cell.addEventListener("click", () => {
                 markTokenInCell(cell);
+                cell.classList.add("clicked");
+            });
+
+            cell.addEventListener("mouseenter", () => {
+                if(cell.classList.contains("clicked") || !canMarkToken) {
+                    return;
+                }
+                const currentPlayerToken = Player.getCurrentPlayer().token;
+                cell.textContent = currentPlayerToken;
+            });
+
+            cells.forEach(cell => {
+                cell.addEventListener("mouseleave", () => {
+                    if(cell.classList.contains('clicked')) {
+                        return;
+                    }
+                    cell.textContent = "";
+                });
             });
         });
-        
+
         restartBtn.addEventListener("click", RestartGame);
 
         changeNameBtn.addEventListener("click", () => {
