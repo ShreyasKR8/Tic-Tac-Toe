@@ -113,8 +113,12 @@ const DisplayController = (function() {
         const restartBtn = document.querySelector(".restart-btn");
         const changeNameBtn = document.querySelector(".change-name-btn");
         const dialog = document.querySelector(".names-dialog");
-        const confirmNamesBtn = document.querySelector(".confirm-names-button") 
+        const confirmNamesBtn = document.querySelector(".confirm-names-button")
+        const currentYearSpan = document.querySelector(".current-year");
         let canMarkToken = true;
+
+        const date = new Date();
+        currentYearSpan.textContent = date.getFullYear();
 
         const markTokenInCell = function(cell) {
             if(cell.textContent != "" || !canMarkToken) { //Disallow marking on non-empty cells.
