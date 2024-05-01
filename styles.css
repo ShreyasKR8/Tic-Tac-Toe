@@ -157,3 +157,26 @@ footer {
     color: white;
     text-align: center;
 }
+
+@media (max-width: 480px) {
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .btn-div {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        margin: 10px auto;
+    }
+
+    .result {
+        height: 10px;
+    }
+
+    .footer-item {
+        position: static;
+    }
+}
